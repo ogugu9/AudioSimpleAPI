@@ -58,6 +58,14 @@ separation = separation_namespace.model('Separation', {
         example='2200'
     ),
 })
+separation_audio = separation_namespace.model('SepAudio', {
+    'spec_img': fields.String(
+        required=True,
+        description='分離音の周波数-時間のパワー(スペクトログラム)の画像パス',
+        example='spec.png',
+    ),
+})
+
 
 @separation_namespace.route('/')
 class SeparationExec(Resource):
@@ -71,14 +79,15 @@ class SeparationExec(Resource):
         pass
 
 
-@separation_namespace.route('/spec_img/<int:woker_id>/<int:sep_audio_id>')
-class SeparationSpec(Resource):
+@separation_namespace.route('/sep/<int:woker_id>/<int:sep_audio_id>')
+class SeparationAudio(Resource):
+    @separation_namespace.marshal_with(separation_audio)
     def get(self, worker_id,sep_audio_id):
         """
-        周波数-時間のパワー(スペクトログラム)の画像パス取得
+        分離音情報の取得
         """
         #TODO
-        return {"img":""}, 200
+        pass
 
 
 @separation_namespace.route('/log/<int:woker_id>')

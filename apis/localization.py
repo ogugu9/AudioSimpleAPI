@@ -78,6 +78,19 @@ localization = localization_namespace.model('Localization', {
     ),
 })
 
+localization_result = localization_namespace.model('LocalizationResult', {
+    'localization': fields.Nested(scene,required=True),
+    'spec_img': fields.String(
+        required=True,
+        description='周波数-時間のパワー(スペクトログラム)の画像パス',
+        example='/img.png',
+    ),
+    'spatial_img': fields.String(
+        required=True,
+        description='空間-時間のパワー(MUSICスペクトログラム)の画像パス',
+        example='/img.png',
+    ),
+})
 @localization_namespace.route('/')
 class LocalizationExec(Resource):
     @localization_namespace.marshal_with(localization_response)
@@ -88,26 +101,6 @@ class LocalizationExec(Resource):
         """
         #TODO
         pass
-
-@localization_namespace.route('/spec_img/<int:woker_id>')
-class LocalizationSpec(Resource):
-    def get(self, worker_id):
-        """
-        周波数-時間のパワー(スペクトログラム)の画像パス取得
-        """
-        #TODO
-        return {"img":""}, 200
-
-
-@localization_namespace.route('/spatial_img/<int:woker_id>')
-class LocalizationSpatialPower(Resource):
-    def get(self, worker_id):
-        """
-        空間-時間のパワーの画像パス取得
-        """
-        #TODO
-        return {"img":""}, 200
-
 
 
 @localization_namespace.route('/log/<int:woker_id>')
@@ -121,10 +114,10 @@ class LocalizationLog(Resource):
 
 @localization_namespace.route('/result/<int:woker_id>')
 class LocalizationResult(Resource):
-    @localization_namespace.marshal_with(scene)
+    @localization_namespace.marshal_with(localization_result)
     def get(self, worker_id):
         """
-        結果取得:Sceneオブジェクト
+        結果取得:Sceneオブジェクト+ 画像等
         """
         #TODO
         pass
