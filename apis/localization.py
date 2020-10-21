@@ -58,22 +58,22 @@ localization = localization_namespace.model('Localization', {
     ),
     'threshold': fields.Float(
         required=True,
-        description='（定位パラメータ）スレッショルド',
+        description='（定位パラメータ）スレッショルド(dB)',
         example='28.5'
     ),
     'lowest_freq': fields.Float(
         required=True,
-        description='（定位パラメータ）最小周波数',
+        description='（定位パラメータ）最小周波数(Hz)',
         example='2200'
     ),
     'pause_length': fields.Float(
         required=True,
-        description='（定位パラメータ）空白期間',
+        description='（定位パラメータ）空白期間(msec=X/10 [frame])',
         example='1200'
     ),
     'min_interval_src': fields.Float(
         required=True,
-        description='（定位パラメータ）音源間の最小間隔',
+        description='（定位パラメータ）音源間の最小間隔(degree)',
         example='15'
     ),
 })
