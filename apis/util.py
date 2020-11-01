@@ -6,7 +6,7 @@ import glob
 util_namespace = Namespace('util', description='utilityのエンドポイント')
 
 # JSONモデルの定義
-TF_DIR="./tf/"
+TF_DIR="./public/tf/"
 @util_namespace.route('/transfer_function/')
 class TransferFunctionList(Resource):
     def get(self):
