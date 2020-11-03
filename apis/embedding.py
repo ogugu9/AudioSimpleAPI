@@ -3,6 +3,7 @@ from .scene import event
 from flask import request, redirect, url_for,make_response,jsonify
 import subprocess
 import os
+import json
 
 # Namespaceの初期化
 embedding_namespace = Namespace('embedding', description='Embeddingのエンドポイント')
@@ -95,6 +96,7 @@ embedding_response = embedding_namespace.model('EmbeddingResponse', {
 
 BASE_PATH="./public/"
 LOG_PATH="./public/log_embedding/"
+CONFIG_PATH="./public/config_embedding/"
 RESULT_PATH="./public/result_embedding/"
 worker={}
 @embedding_namespace.route('/')
@@ -106,41 +108,27 @@ class EmbeddingExec(Resource):
         """
         embeddingの開始
         """
-        src_path=BASE_PATH+request.json['audio_id']
-        tf_path =TF_PATH+request.json['transfer_function']
-
         if "name" in request.json:
-            name= request.json["name"]
+            name = request.json["name"]
         else:
-            name=os.basename(request.json['audio_id'])
-        log_path=LOG_PATH+name+".txt"
+            name = os.basename(request.json['audio_id'])
+        ###
+        #src_list = BASE_PATH+request.json['audio_id_list']
+        #if 'event_list' in request.json:
+        #    event_list = request.json['event_list']
+        ###
+        config_path=CONFIG_PATH+name+".json"
+        with open(config_path, 'w') as outfile:
+            json.dump(request.json,outfile)
+        
+        
         result_path=RESULT_PATH
-
-        src_num          = request.json['src_num']
-        threshold        = request.json['threshold']
-        lowest_freq      = request.json['lowest_freq']
-        pause_length     = request.json['pause_length']
-        min_interval_src = request.json['min_interval_src']
-     
-        cmd=["micarrayx-localize", tf_path, src_path,
-                #"--stft_win_size", S,
-                #"--stft_step", S,
-                "--min_freq", str(lowest_freq),
-                #"--max_freq", F,
-                #"--music_win_size", S,
-                #"--music_step", S,
-                "--music_src_num", str(src_num),
-                "--out_npy", result_path+name+".npy",
-                "--out_full_npy", result_path+name+".full.npy",
-                "--out_fig", result_path+name+".music.png",
-                "--out_spectrogram",result_path+name+".spec.png",
-                "--out_setting",result_path+name+".config.json",
-                "--thresh", str(threshold),
-                "--event_min_size", str(min_interval_src),
-                "--out_embedding", result_path+name+".loc.json",
-                ">",log_path]
-        print(" ".join(cmd))
-        p = subprocess.Popen(cmd)
+        cmd=["python","./src/embedding.py","--config",config_path]
+        log_path=LOG_PATH+name+".txt"
+        with open(log_path, 'w') as f:
+            print(" ".join(cmd))
+            #p = subprocess.Popen(cmd, stdout=f, stderr=subprocess.STDOUT)
+            p = subprocess.Popen(cmd)
         pid=int(p.pid)
         worker[pid]={"process":p,"name":name}
         res={"worker_id":int(p.pid),"name":name}

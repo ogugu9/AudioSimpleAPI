@@ -9,17 +9,17 @@ event_point = scene_namespace.model('EventPoint', {
     'begin_time': fields.Float(
         required=True,
         description='定位の開始(sec) 、eventの開始を0秒とする',
-        example='0'
+        example=0
     ),
     'duration': fields.Float(
         required=True,
         description='定位時間(sec) 、デフォルトの定位設定だと500msecごとに定位を行う',
-        example='0.5'
+        example=0.5
     ),
     'direction': fields.Float(
         required=True,
         description='定位方向(degree) 、0度を中心+180から-180で指定',
-        example='0'
+        example=0
     ),
 
 })
@@ -28,16 +28,16 @@ event = scene_namespace.model('Event', {
     'begin_time': fields.Float(
         required=True,
         description='イベントの開始(sec) 、audio_idの開始を0秒とする',
-        example='0'
+        example=0
     ),
     'end_time': fields.Float(
         required=True,
         description='イベントの終了(sec)、audio_idの開始を0秒とする',
-        example='0'
+        example=0
     ),
     'sep_audio_id': fields.Float(
         description='分離音の音声ファイルのID',
-        example='0'
+        example=0
     ),
     'point_list': fields.List(fields.Nested(event_point),required=True),
     'label': fields.String(
