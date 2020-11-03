@@ -9,7 +9,6 @@ RUN apt update -y && \
 ENV CONDA_ROOT /root/miniconda
 ENV PATH /root/miniconda/bin:$PATH
 SHELL ["/bin/bash", "-c"]
-RUN git clone https://github.com/kojima-r/AudioSimpleAPI.git
 
 RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh && \
     bash ~/miniconda.sh -b -p $CONDA_ROOT && \
@@ -26,6 +25,7 @@ RUN pip install trimap pillow
 
 RUN pip install git+https://github.com/kojima-r/HARK_TF_Parser.git
 RUN pip install git+https://github.com/kojima-r/MicArrayX.git
+RUN git clone https://github.com/kojima-r/AudioSimpleAPI.git
 
 WORKDIR /AudioSimpleAPI
 

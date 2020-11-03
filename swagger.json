@@ -1,869 +1,1128 @@
 {
-    "swagger":"2.0",
-    "basePath":"\/",
-    "paths":{
-        "\/localization\/":{
-            "post":{
-                "responses":{
-                    "200":{
-                        "description":"Success",
-                        "schema":{
-                            "$ref":"#\/definitions\/LocalizationResponse"
+    "swagger": "2.0",
+    "basePath": "/",
+    "paths": {
+        "/embedding/": {
+            "post": {
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/EmbeddingResponse"
                         }
                     }
                 },
-                "summary":"localization\u306e\u958b\u59cb",
-                "operationId":"post_localization_exec",
-                "parameters":[
+                "operationId": "post_embedding_exec",
+                "parameters": [
                     {
-                        "name":"payload",
-                        "required":true,
-                        "in":"body",
-                        "schema":{
-                            "$ref":"#\/definitions\/Localization"
+                        "name": "payload",
+                        "required": true,
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/Embedding"
                         }
                     },
                     {
-                        "name":"X-Fields",
-                        "in":"header",
-                        "type":"string",
-                        "format":"mask",
-                        "description":"An optional fields mask"
+                        "name": "X-Fields",
+                        "in": "header",
+                        "type": "string",
+                        "format": "mask",
+                        "description": "An optional fields mask"
                     }
                 ],
-                "tags":[
-                    "localization"
+                "tags": [
+                    "embedding"
                 ]
             }
         },
-        "\/localization\/log\/{woker_id}":{
-            "parameters":[
+        "/embedding/log/{worker_id}": {
+            "parameters": [
                 {
-                    "name":"woker_id",
-                    "in":"path",
-                    "required":true,
-                    "type":"integer"
+                    "name": "worker_id",
+                    "in": "path",
+                    "required": true,
+                    "type": "integer"
                 }
             ],
-            "get":{
-                "responses":{
-                    "200":{
-                        "description":"Success"
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "Success"
                     }
                 },
-                "summary":"\u30ed\u30b0\u53d6\u5f97",
-                "operationId":"get_localization_log",
-                "tags":[
-                    "localization"
+                "summary": "\u30ed\u30b0\u53d6\u5f97",
+                "operationId": "get_embedding_log",
+                "tags": [
+                    "embedding"
                 ]
             }
         },
-        "\/localization\/result\/{woker_id}":{
-            "parameters":[
+        "/embedding/result/{worker_id}": {
+            "parameters": [
                 {
-                    "name":"woker_id",
-                    "in":"path",
-                    "required":true,
-                    "type":"integer"
+                    "name": "worker_id",
+                    "in": "path",
+                    "required": true,
+                    "type": "integer"
                 }
             ],
-            "get":{
-                "responses":{
-                    "200":{
-                        "description":"Success",
-                        "schema":{
-                            "$ref":"#\/definitions\/LocalizationResult"
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/EmbeddingResult"
                         }
                     }
                 },
-                "summary":"\u7d50\u679c\u53d6\u5f97:Scene\u30aa\u30d6\u30b8\u30a7\u30af\u30c8+ \u753b\u50cf\u7b49",
-                "operationId":"get_localization_result",
-                "parameters":[
+                "summary": "\u7d50\u679c\u53d6\u5f97:2\u6b21\u5143\u5ea7\u6a19(\u3068\u5143\u30c7\u30fc\u30bf\u306e\u5bfe\u5fdc\uff09\u306e\u53d6\u5f97",
+                "operationId": "get_embedding_result",
+                "parameters": [
                     {
-                        "name":"X-Fields",
-                        "in":"header",
-                        "type":"string",
-                        "format":"mask",
-                        "description":"An optional fields mask"
+                        "name": "X-Fields",
+                        "in": "header",
+                        "type": "string",
+                        "format": "mask",
+                        "description": "An optional fields mask"
                     }
                 ],
-                "tags":[
+                "tags": [
+                    "embedding"
+                ]
+            }
+        },
+        "/embedding/worker/{worker_id}": {
+            "parameters": [
+                {
+                    "name": "worker_id",
+                    "in": "path",
+                    "required": true,
+                    "type": "integer"
+                }
+            ],
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/EmbeddingWorker"
+                        }
+                    }
+                },
+                "operationId": "get_embedding_worker",
+                "parameters": [
+                    {
+                        "name": "X-Fields",
+                        "in": "header",
+                        "type": "string",
+                        "format": "mask",
+                        "description": "An optional fields mask"
+                    }
+                ],
+                "tags": [
+                    "embedding"
+                ]
+            },
+            "delete": {
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                },
+                "summary": "\u51e6\u7406\u306e\u53d6\u308a\u6d88\u3057",
+                "operationId": "delete_embedding_worker",
+                "tags": [
+                    "embedding"
+                ]
+            }
+        },
+        "/localization/": {
+            "post": {
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/LocalizationResponse"
+                        }
+                    }
+                },
+                "operationId": "post_localization_exec",
+                "parameters": [
+                    {
+                        "name": "payload",
+                        "required": true,
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/Localization"
+                        }
+                    },
+                    {
+                        "name": "X-Fields",
+                        "in": "header",
+                        "type": "string",
+                        "format": "mask",
+                        "description": "An optional fields mask"
+                    }
+                ],
+                "tags": [
                     "localization"
                 ]
             }
         },
-        "\/localization\/worker\/{woker_id}":{
-            "parameters":[
+        "/localization/log/{worker_id}": {
+            "parameters": [
                 {
-                    "name":"woker_id",
-                    "in":"path",
-                    "required":true,
-                    "type":"integer"
+                    "name": "worker_id",
+                    "in": "path",
+                    "required": true,
+                    "type": "integer"
                 }
             ],
-            "get":{
-                "responses":{
-                    "200":{
-                        "description":"Success",
-                        "schema":{
-                            "$ref":"#\/definitions\/LocalizationWorker"
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                },
+                "summary": "\u30ed\u30b0\u53d6\u5f97",
+                "operationId": "get_localization_log",
+                "tags": [
+                    "localization"
+                ]
+            }
+        },
+        "/localization/result/{worker_id}": {
+            "parameters": [
+                {
+                    "name": "worker_id",
+                    "in": "path",
+                    "required": true,
+                    "type": "integer"
+                }
+            ],
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/LocalizationResult"
                         }
                     }
                 },
-                "summary":"\u73fe\u5728\u306e\u51e6\u7406\u72b6\u6cc1\u306e\u78ba\u8a8d",
-                "operationId":"get_localization_worker",
-                "parameters":[
+                "summary": "\u7d50\u679c\u53d6\u5f97:Scene\u30aa\u30d6\u30b8\u30a7\u30af\u30c8+ \u753b\u50cf\u7b49",
+                "operationId": "get_localization_result",
+                "parameters": [
                     {
-                        "name":"X-Fields",
-                        "in":"header",
-                        "type":"string",
-                        "format":"mask",
-                        "description":"An optional fields mask"
+                        "name": "X-Fields",
+                        "in": "header",
+                        "type": "string",
+                        "format": "mask",
+                        "description": "An optional fields mask"
                     }
                 ],
-                "tags":[
+                "tags": [
+                    "localization"
+                ]
+            }
+        },
+        "/localization/worker/{worker_id}": {
+            "parameters": [
+                {
+                    "name": "worker_id",
+                    "in": "path",
+                    "required": true,
+                    "type": "integer"
+                }
+            ],
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/LocalizationWorker"
+                        }
+                    }
+                },
+                "operationId": "get_localization_worker",
+                "parameters": [
+                    {
+                        "name": "X-Fields",
+                        "in": "header",
+                        "type": "string",
+                        "format": "mask",
+                        "description": "An optional fields mask"
+                    }
+                ],
+                "tags": [
                     "localization"
                 ]
             },
-            "delete":{
-                "responses":{
-                    "200":{
-                        "description":"Success"
+            "delete": {
+                "responses": {
+                    "200": {
+                        "description": "Success"
                     }
                 },
-                "summary":"\u51e6\u7406\u306e\u53d6\u308a\u6d88\u3057",
-                "operationId":"delete_localization_worker",
-                "tags":[
+                "summary": "\u51e6\u7406\u306e\u53d6\u308a\u6d88\u3057",
+                "operationId": "delete_localization_worker",
+                "tags": [
                     "localization"
                 ]
             }
         },
-        "\/scene\/dummy\/":{
-            "get":{
-                "responses":{
-                    "200":{
-                        "description":"Success",
-                        "schema":{
-                            "$ref":"#\/definitions\/Scene"
+        "/scene/dummy/": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/Scene"
                         }
                     }
                 },
-                "summary":"\u30c0\u30df\u30fc\u53d6\u5f97",
-                "operationId":"get_scene_dummy",
-                "parameters":[
+                "summary": "\u30c0\u30df\u30fc\u53d6\u5f97",
+                "operationId": "get_scene_dummy",
+                "parameters": [
                     {
-                        "name":"X-Fields",
-                        "in":"header",
-                        "type":"string",
-                        "format":"mask",
-                        "description":"An optional fields mask"
+                        "name": "X-Fields",
+                        "in": "header",
+                        "type": "string",
+                        "format": "mask",
+                        "description": "An optional fields mask"
                     }
                 ],
-                "tags":[
+                "tags": [
                     "scene"
                 ]
             }
         },
-        "\/separation\/":{
-            "post":{
-                "responses":{
-                    "200":{
-                        "description":"Success",
-                        "schema":{
-                            "$ref":"#\/definitions\/SeparationResponse"
+        "/separation/": {
+            "post": {
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/SeparationResponse"
                         }
                     }
                 },
-                "summary":"separation\u306e\u958b\u59cb",
-                "operationId":"post_separation_exec",
-                "parameters":[
+                "summary": "separation\u306e\u958b\u59cb",
+                "operationId": "post_separation_exec",
+                "parameters": [
                     {
-                        "name":"payload",
-                        "required":true,
-                        "in":"body",
-                        "schema":{
-                            "$ref":"#\/definitions\/Separation"
-                        }
-                    },
-                    {
-                        "name":"X-Fields",
-                        "in":"header",
-                        "type":"string",
-                        "format":"mask",
-                        "description":"An optional fields mask"
-                    }
-                ],
-                "tags":[
-                    "separation"
-                ]
-            }
-        },
-        "\/separation\/log\/{woker_id}":{
-            "parameters":[
-                {
-                    "name":"woker_id",
-                    "in":"path",
-                    "required":true,
-                    "type":"integer"
-                }
-            ],
-            "get":{
-                "responses":{
-                    "200":{
-                        "description":"Success"
-                    }
-                },
-                "summary":"\u30ed\u30b0\u53d6\u5f97",
-                "operationId":"get_separation_log",
-                "tags":[
-                    "separation"
-                ]
-            }
-        },
-        "\/separation\/result\/{woker_id}":{
-            "parameters":[
-                {
-                    "name":"woker_id",
-                    "in":"path",
-                    "required":true,
-                    "type":"integer"
-                }
-            ],
-            "get":{
-                "responses":{
-                    "200":{
-                        "description":"Success",
-                        "schema":{
-                            "$ref":"#\/definitions\/Scene"
-                        }
-                    }
-                },
-                "summary":"\u7d50\u679c\u53d6\u5f97:Scene\u30aa\u30d6\u30b8\u30a7\u30af\u30c8",
-                "operationId":"get_separation_result",
-                "parameters":[
-                    {
-                        "name":"X-Fields",
-                        "in":"header",
-                        "type":"string",
-                        "format":"mask",
-                        "description":"An optional fields mask"
-                    }
-                ],
-                "tags":[
-                    "separation"
-                ]
-            }
-        },
-        "\/separation\/sep\/{woker_id}\/{sep_audio_id}":{
-            "parameters":[
-                {
-                    "name":"woker_id",
-                    "in":"path",
-                    "required":true,
-                    "type":"integer"
-                },
-                {
-                    "name":"sep_audio_id",
-                    "in":"path",
-                    "required":true,
-                    "type":"integer"
-                }
-            ],
-            "get":{
-                "responses":{
-                    "200":{
-                        "description":"Success",
-                        "schema":{
-                            "$ref":"#\/definitions\/SepAudio"
-                        }
-                    }
-                },
-                "summary":"\u5206\u96e2\u97f3\u60c5\u5831\u306e\u53d6\u5f97",
-                "operationId":"get_separation_audio",
-                "parameters":[
-                    {
-                        "name":"X-Fields",
-                        "in":"header",
-                        "type":"string",
-                        "format":"mask",
-                        "description":"An optional fields mask"
-                    }
-                ],
-                "tags":[
-                    "separation"
-                ]
-            }
-        },
-        "\/separation\/worker\/{woker_id}":{
-            "parameters":[
-                {
-                    "name":"woker_id",
-                    "in":"path",
-                    "required":true,
-                    "type":"integer"
-                }
-            ],
-            "get":{
-                "responses":{
-                    "200":{
-                        "description":"Success",
-                        "schema":{
-                            "$ref":"#\/definitions\/SeparationWorker"
-                        }
-                    }
-                },
-                "summary":"\u73fe\u5728\u306e\u51e6\u7406\u72b6\u6cc1\u306e\u78ba\u8a8d",
-                "operationId":"get_separation_worker",
-                "parameters":[
-                    {
-                        "name":"X-Fields",
-                        "in":"header",
-                        "type":"string",
-                        "format":"mask",
-                        "description":"An optional fields mask"
-                    }
-                ],
-                "tags":[
-                    "separation"
-                ]
-            },
-            "delete":{
-                "responses":{
-                    "200":{
-                        "description":"Success"
-                    }
-                },
-                "summary":"\u51e6\u7406\u306e\u53d6\u308a\u6d88\u3057",
-                "operationId":"delete_separation_worker",
-                "tags":[
-                    "separation"
-                ]
-            }
-        },
-        "\/trim\/":{
-            "post":{
-                "responses":{
-                    "200":{
-                        "description":"Success",
-                        "schema":{
-                            "$ref":"#\/definitions\/TrimResponse"
-                        }
-                    }
-                },
-                "summary":"trim\u306e\u958b\u59cb",
-                "operationId":"post_trim_exec",
-                "parameters":[
-                    {
-                        "name":"payload",
-                        "required":true,
-                        "in":"body",
-                        "schema":{
-                            "$ref":"#\/definitions\/Trim"
+                        "name": "payload",
+                        "required": true,
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/Separation"
                         }
                     },
                     {
-                        "name":"X-Fields",
-                        "in":"header",
-                        "type":"string",
-                        "format":"mask",
-                        "description":"An optional fields mask"
+                        "name": "X-Fields",
+                        "in": "header",
+                        "type": "string",
+                        "format": "mask",
+                        "description": "An optional fields mask"
                     }
                 ],
-                "tags":[
-                    "trim"
+                "tags": [
+                    "separation"
                 ]
             }
         },
-        "\/trim\/log\/{woker_id}":{
-            "parameters":[
+        "/separation/log/{woker_id}": {
+            "parameters": [
                 {
-                    "name":"woker_id",
-                    "in":"path",
-                    "required":true,
-                    "type":"integer"
+                    "name": "woker_id",
+                    "in": "path",
+                    "required": true,
+                    "type": "integer"
                 }
             ],
-            "get":{
-                "responses":{
-                    "200":{
-                        "description":"Success"
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "Success"
                     }
                 },
-                "summary":"\u30ed\u30b0\u53d6\u5f97",
-                "operationId":"get_trim_log",
-                "tags":[
-                    "trim"
+                "summary": "\u30ed\u30b0\u53d6\u5f97",
+                "operationId": "get_separation_log",
+                "tags": [
+                    "separation"
                 ]
             }
         },
-        "\/trim\/worker\/{woker_id}":{
-            "parameters":[
+        "/separation/result/{woker_id}": {
+            "parameters": [
                 {
-                    "name":"woker_id",
-                    "in":"path",
-                    "required":true,
-                    "type":"integer"
+                    "name": "woker_id",
+                    "in": "path",
+                    "required": true,
+                    "type": "integer"
                 }
             ],
-            "get":{
-                "responses":{
-                    "200":{
-                        "description":"Success",
-                        "schema":{
-                            "$ref":"#\/definitions\/TrimWorker"
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/Scene"
                         }
                     }
                 },
-                "summary":"\u73fe\u5728\u306e\u51e6\u7406\u72b6\u6cc1\u306e\u78ba\u8a8d",
-                "operationId":"get_trim_worker",
-                "parameters":[
+                "summary": "\u7d50\u679c\u53d6\u5f97:Scene\u30aa\u30d6\u30b8\u30a7\u30af\u30c8",
+                "operationId": "get_separation_result",
+                "parameters": [
                     {
-                        "name":"X-Fields",
-                        "in":"header",
-                        "type":"string",
-                        "format":"mask",
-                        "description":"An optional fields mask"
+                        "name": "X-Fields",
+                        "in": "header",
+                        "type": "string",
+                        "format": "mask",
+                        "description": "An optional fields mask"
                     }
                 ],
-                "tags":[
-                    "trim"
+                "tags": [
+                    "separation"
                 ]
-            },
-            "delete":{
-                "responses":{
-                    "200":{
-                        "description":"Success"
+            }
+        },
+        "/separation/sep/{woker_id}/{sep_audio_id}": {
+            "parameters": [
+                {
+                    "name": "woker_id",
+                    "in": "path",
+                    "required": true,
+                    "type": "integer"
+                },
+                {
+                    "name": "sep_audio_id",
+                    "in": "path",
+                    "required": true,
+                    "type": "integer"
+                }
+            ],
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/SepAudio"
+                        }
                     }
                 },
-                "summary":"\u51e6\u7406\u306e\u53d6\u308a\u6d88\u3057",
-                "operationId":"delete_trim_worker",
-                "tags":[
+                "summary": "\u5206\u96e2\u97f3\u60c5\u5831\u306e\u53d6\u5f97",
+                "operationId": "get_separation_audio",
+                "parameters": [
+                    {
+                        "name": "X-Fields",
+                        "in": "header",
+                        "type": "string",
+                        "format": "mask",
+                        "description": "An optional fields mask"
+                    }
+                ],
+                "tags": [
+                    "separation"
+                ]
+            }
+        },
+        "/separation/worker/{woker_id}": {
+            "parameters": [
+                {
+                    "name": "woker_id",
+                    "in": "path",
+                    "required": true,
+                    "type": "integer"
+                }
+            ],
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/SeparationWorker"
+                        }
+                    }
+                },
+                "summary": "\u73fe\u5728\u306e\u51e6\u7406\u72b6\u6cc1\u306e\u78ba\u8a8d",
+                "operationId": "get_separation_worker",
+                "parameters": [
+                    {
+                        "name": "X-Fields",
+                        "in": "header",
+                        "type": "string",
+                        "format": "mask",
+                        "description": "An optional fields mask"
+                    }
+                ],
+                "tags": [
+                    "separation"
+                ]
+            },
+            "delete": {
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                },
+                "summary": "\u51e6\u7406\u306e\u53d6\u308a\u6d88\u3057",
+                "operationId": "delete_separation_worker",
+                "tags": [
+                    "separation"
+                ]
+            }
+        },
+        "/trim/": {
+            "post": {
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/TrimResponse"
+                        }
+                    }
+                },
+                "operationId": "post_trim_exec",
+                "parameters": [
+                    {
+                        "name": "payload",
+                        "required": true,
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/Trim"
+                        }
+                    },
+                    {
+                        "name": "X-Fields",
+                        "in": "header",
+                        "type": "string",
+                        "format": "mask",
+                        "description": "An optional fields mask"
+                    }
+                ],
+                "tags": [
                     "trim"
                 ]
             }
         },
-        "\/util\/transfer_function\/":{
-            "get":{
-                "responses":{
-                    "200":{
-                        "description":"Success"
+        "/trim/log/{worker_id}": {
+            "parameters": [
+                {
+                    "name": "worker_id",
+                    "in": "path",
+                    "required": true,
+                    "type": "integer"
+                }
+            ],
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "Success"
                     }
                 },
-                "summary":"\u4f1d\u9054\u95a2\u6570\u306e\u30ea\u30b9\u30c8\u53d6\u5f97",
-                "operationId":"get_transfer_function_list",
-                "tags":[
+                "summary": "\u30ed\u30b0\u53d6\u5f97",
+                "operationId": "get_trim_log",
+                "tags": [
+                    "trim"
+                ]
+            }
+        },
+        "/trim/worker/{worker_id}": {
+            "parameters": [
+                {
+                    "name": "worker_id",
+                    "in": "path",
+                    "required": true,
+                    "type": "integer"
+                }
+            ],
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/TrimWorker"
+                        }
+                    }
+                },
+                "operationId": "get_trim_worker",
+                "parameters": [
+                    {
+                        "name": "X-Fields",
+                        "in": "header",
+                        "type": "string",
+                        "format": "mask",
+                        "description": "An optional fields mask"
+                    }
+                ],
+                "tags": [
+                    "trim"
+                ]
+            },
+            "delete": {
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                },
+                "summary": "\u51e6\u7406\u306e\u53d6\u308a\u6d88\u3057",
+                "operationId": "delete_trim_worker",
+                "tags": [
+                    "trim"
+                ]
+            }
+        },
+        "/util/transfer_function/": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                },
+                "summary": "\u4f1d\u9054\u95a2\u6570\u306e\u30ea\u30b9\u30c8\u53d6\u5f97",
+                "operationId": "get_transfer_function_list",
+                "tags": [
                     "util"
                 ]
             }
         }
     },
-    "info":{
-        "title":"Audio Simple API",
-        "version":"1.0",
-        "description":"Trim\/Localization\/Separation\/Embedding API"
+    "info": {
+        "title": "Audio Simple API",
+        "version": "1.0",
+        "description": "Trim/Localization/Separation/Embedding API"
     },
-    "produces":[
-        "application\/json"
+    "produces": [
+        "application/json"
     ],
-    "consumes":[
-        "application\/json"
+    "consumes": [
+        "application/json"
     ],
-    "tags":[
+    "tags": [
         {
-            "name":"scene",
-            "description":"scene\u306e\u30a8\u30f3\u30c9\u30dd\u30a4\u30f3\u30c8: \u5207\u308a\u51fa\u3057\u305f\u97f3\u58f0\u30d5\u30a1\u30a4\u30eb\u306b\u30a4\u30d9\u30f3\u30c8\uff08\u5b9a\u4f4d\u3055\u308c\u305f\u7d50\u679c\u3082\u3057\u304f\u306f\u30a2\u30ce\u30c6\u30fc\u30b7\u30e7\u30f3\u3055\u308c\u305f\u7d50\u679c\uff09\u306e\u30bb\u30c3\u30c8"
+            "name": "scene",
+            "description": "scene\u306e\u30a8\u30f3\u30c9\u30dd\u30a4\u30f3\u30c8: \u5207\u308a\u51fa\u3057\u305f\u97f3\u58f0\u30d5\u30a1\u30a4\u30eb\u306b\u30a4\u30d9\u30f3\u30c8\uff08\u5b9a\u4f4d\u3055\u308c\u305f\u7d50\u679c\u3082\u3057\u304f\u306f\u30a2\u30ce\u30c6\u30fc\u30b7\u30e7\u30f3\u3055\u308c\u305f\u7d50\u679c\uff09\u306e\u30bb\u30c3\u30c8"
         },
         {
-            "name":"trim",
-            "description":"Trim\u306e\u30a8\u30f3\u30c9\u30dd\u30a4\u30f3\u30c8:\u5207\u308a\u51fa\u3057"
+            "name": "trim",
+            "description": "Trim\u306e\u30a8\u30f3\u30c9\u30dd\u30a4\u30f3\u30c8:\u5207\u308a\u51fa\u3057"
         },
         {
-            "name":"localization",
-            "description":"Localization\u306e\u30a8\u30f3\u30c9\u30dd\u30a4\u30f3\u30c8"
+            "name": "localization",
+            "description": "Localization\u306e\u30a8\u30f3\u30c9\u30dd\u30a4\u30f3\u30c8"
         },
         {
-            "name":"separation",
-            "description":"Separation\u306e\u30a8\u30f3\u30c9\u30dd\u30a4\u30f3\u30c8"
+            "name": "separation",
+            "description": "Separation\u306e\u30a8\u30f3\u30c9\u30dd\u30a4\u30f3\u30c8"
         },
         {
-            "name":"util",
-            "description":"utility\u306e\u30a8\u30f3\u30c9\u30dd\u30a4\u30f3\u30c8"
+            "name": "embedding",
+            "description": "Embedding\u306e\u30a8\u30f3\u30c9\u30dd\u30a4\u30f3\u30c8"
+        },
+        {
+            "name": "util",
+            "description": "utility\u306e\u30a8\u30f3\u30c9\u30dd\u30a4\u30f3\u30c8"
         }
     ],
-    "definitions":{
-        "Scene":{
-            "required":[
+    "definitions": {
+        "Scene": {
+            "required": [
                 "audio_id",
                 "event_list",
                 "name"
             ],
-            "properties":{
-                "audio_id":{
-                    "type":"string",
-                    "description":"\u5207\u308a\u51fa\u3057\u305faudio_id",
-                    "example":"1"
+            "properties": {
+                "audio_id": {
+                    "type": "string",
+                    "description": "\u5207\u308a\u51fa\u3057\u305faudio_id",
+                    "example": "1"
                 },
-                "event_list":{
-                    "type":"array",
-                    "items":{
-                        "$ref":"#\/definitions\/Event"
+                "event_list": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Event"
                     }
                 },
-                "name":{
-                    "type":"string",
-                    "description":"\u5207\u308a\u51fa\u3057\u90e8\u5206\u306e\u540d\u524d",
-                    "example":"trim A"
+                "name": {
+                    "type": "string",
+                    "description": "\u5207\u308a\u51fa\u3057\u90e8\u5206\u306e\u540d\u524d",
+                    "example": "trim A"
                 }
             },
-            "type":"object"
+            "type": "object"
         },
-        "Event":{
-            "required":[
+        "Event": {
+            "required": [
                 "begin_time",
                 "end_time",
                 "point_list"
             ],
-            "properties":{
-                "begin_time":{
-                    "type":"number",
-                    "description":"\u30a4\u30d9\u30f3\u30c8\u306e\u958b\u59cb(sec) \u3001audio_id\u306e\u958b\u59cb\u30920\u79d2\u3068\u3059\u308b",
-                    "example":"0"
+            "properties": {
+                "begin_time": {
+                    "type": "number",
+                    "description": "\u30a4\u30d9\u30f3\u30c8\u306e\u958b\u59cb(sec) \u3001audio_id\u306e\u958b\u59cb\u30920\u79d2\u3068\u3059\u308b"
                 },
-                "end_time":{
-                    "type":"number",
-                    "description":"\u30a4\u30d9\u30f3\u30c8\u306e\u7d42\u4e86(sec)\u3001audio_id\u306e\u958b\u59cb\u30920\u79d2\u3068\u3059\u308b",
-                    "example":"0"
+                "end_time": {
+                    "type": "number",
+                    "description": "\u30a4\u30d9\u30f3\u30c8\u306e\u7d42\u4e86(sec)\u3001audio_id\u306e\u958b\u59cb\u30920\u79d2\u3068\u3059\u308b"
                 },
-                "sep_audio_id":{
-                    "type":"number",
-                    "description":"\u5206\u96e2\u97f3\u306e\u97f3\u58f0\u30d5\u30a1\u30a4\u30eb\u306eID",
-                    "example":"0"
+                "sep_audio_id": {
+                    "type": "number",
+                    "description": "\u5206\u96e2\u97f3\u306e\u97f3\u58f0\u30d5\u30a1\u30a4\u30eb\u306eID"
                 },
-                "point_list":{
-                    "type":"array",
-                    "items":{
-                        "$ref":"#\/definitions\/EventPoint"
+                "point_list": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/EventPoint"
                     }
                 },
-                "label":{
-                    "type":"string",
-                    "description":"\u30a4\u30d9\u30f3\u30c8\u306e\u540d\u524d",
-                    "example":"Event A"
+                "label": {
+                    "type": "string",
+                    "description": "\u30a4\u30d9\u30f3\u30c8\u306e\u540d\u524d",
+                    "example": "Event A"
                 }
             },
-            "type":"object"
+            "type": "object"
         },
-        "EventPoint":{
-            "required":[
+        "EventPoint": {
+            "required": [
                 "begin_time",
                 "direction",
                 "duration"
             ],
-            "properties":{
-                "begin_time":{
-                    "type":"number",
-                    "description":"\u5b9a\u4f4d\u306e\u958b\u59cb(sec) \u3001event\u306e\u958b\u59cb\u30920\u79d2\u3068\u3059\u308b",
-                    "example":"0"
+            "properties": {
+                "begin_time": {
+                    "type": "number",
+                    "description": "\u5b9a\u4f4d\u306e\u958b\u59cb(sec) \u3001event\u306e\u958b\u59cb\u30920\u79d2\u3068\u3059\u308b"
                 },
-                "duration":{
-                    "type":"number",
-                    "description":"\u5b9a\u4f4d\u6642\u9593(sec) \u3001\u30c7\u30d5\u30a9\u30eb\u30c8\u306e\u5b9a\u4f4d\u8a2d\u5b9a\u3060\u3068500msec\u3054\u3068\u306b\u5b9a\u4f4d\u3092\u884c\u3046",
-                    "example":"0.5"
+                "duration": {
+                    "type": "number",
+                    "description": "\u5b9a\u4f4d\u6642\u9593(sec) \u3001\u30c7\u30d5\u30a9\u30eb\u30c8\u306e\u5b9a\u4f4d\u8a2d\u5b9a\u3060\u3068500msec\u3054\u3068\u306b\u5b9a\u4f4d\u3092\u884c\u3046",
+                    "example": 0.5
                 },
-                "direction":{
-                    "type":"number",
-                    "description":"\u5b9a\u4f4d\u65b9\u5411(degree) \u30010\u5ea6\u3092\u4e2d\u5fc3+180\u304b\u3089-180\u3067\u6307\u5b9a",
-                    "example":"0"
+                "direction": {
+                    "type": "number",
+                    "description": "\u5b9a\u4f4d\u65b9\u5411(degree) \u30010\u5ea6\u3092\u4e2d\u5fc3+180\u304b\u3089-180\u3067\u6307\u5b9a"
                 }
             },
-            "type":"object"
+            "type": "object"
         },
-        "Trim":{
-            "required":[
+        "Trim": {
+            "required": [
                 "audio_id",
                 "begin_time",
                 "end_time",
                 "original_audio_id"
             ],
-            "properties":{
-                "original_audio_id":{
-                    "type":"string",
-                    "description":"\u5143\u306e\u97f3\u58f0\u30d5\u30a1\u30a4\u30ebID\/\u30d5\u30a1\u30a4\u30eb\u30d1\u30b9",
-                    "example":"0"
+            "properties": {
+                "original_audio_id": {
+                    "type": "string",
+                    "description": "\u5143\u306e\u97f3\u58f0\u30d5\u30a1\u30a4\u30ebID/\u30d5\u30a1\u30a4\u30eb\u30d1\u30b9",
+                    "example": "audio/test_rectf00.wav"
                 },
-                "begin_time":{
-                    "type":"number",
-                    "description":"\u5207\u308a\u51fa\u3057\u306e\u958b\u59cb(sec)\u3001original_audio_id\u306b\u5bfe\u5fdc\u3057\u305f\u97f3\u58f0\u30d5\u30a1\u30a4\u30eb\u306e\u958b\u59cb\u30920\u79d2\u3068\u3059\u308b",
-                    "example":"0"
+                "begin_time": {
+                    "type": "number",
+                    "description": "\u5207\u308a\u51fa\u3057\u306e\u958b\u59cb(sec)\u3001original_audio_id\u306b\u5bfe\u5fdc\u3057\u305f\u97f3\u58f0\u30d5\u30a1\u30a4\u30eb\u306e\u958b\u59cb\u30920\u79d2\u3068\u3059\u308b"
                 },
-                "end_time":{
-                    "type":"number",
-                    "description":"\u5207\u308a\u51fa\u3057\u306e\u7d42\u4e86(sec)\u3001original_audio_id\u306b\u5bfe\u5fdc\u3057\u305f\u97f3\u58f0\u30d5\u30a1\u30a4\u30eb\u306e\u958b\u59cb\u30920\u79d2\u3068\u3059\u308b",
-                    "example":"0"
+                "end_time": {
+                    "type": "number",
+                    "description": "\u5207\u308a\u51fa\u3057\u306e\u7d42\u4e86(sec)\u3001original_audio_id\u306b\u5bfe\u5fdc\u3057\u305f\u97f3\u58f0\u30d5\u30a1\u30a4\u30eb\u306e\u958b\u59cb\u30920\u79d2\u3068\u3059\u308b",
+                    "example": 2
                 },
-                "audio_id":{
-                    "type":"string",
-                    "description":"\u5207\u308a\u51fa\u3057\u305faudio_id\/\u30d5\u30a1\u30a4\u30eb\u30d1\u30b9",
-                    "example":"1"
+                "audio_id": {
+                    "type": "string",
+                    "description": "\u5207\u308a\u51fa\u3057\u305faudio_id/\u30d5\u30a1\u30a4\u30eb\u30d1\u30b9",
+                    "example": "audio_trim/test_rectf00.wav"
                 },
-                "name":{
-                    "type":"string",
-                    "description":"\u5207\u308a\u51fa\u3057\u305f\u90e8\u5206\u306e\u540d\u524d",
-                    "example":"trimA"
+                "name": {
+                    "type": "string",
+                    "description": "\u5207\u308a\u51fa\u3057\u305f\u90e8\u5206\u306e\u540d\u524d",
+                    "example": "trimA"
                 }
             },
-            "type":"object"
+            "type": "object"
         },
-        "TrimResponse":{
-            "properties":{
-                "name":{
-                    "type":"string",
-                    "description":"\u5207\u308a\u51fa\u3057\u305f\u90e8\u5206\u306e\u540d\u524d",
-                    "example":"trimA"
+        "TrimResponse": {
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "\u5207\u308a\u51fa\u3057\u305f\u90e8\u5206\u306e\u540d\u524d",
+                    "example": "trimA"
                 },
-                "worker_id":{
-                    "type":"integer",
-                    "description":"\u30ef\u30fc\u30ab\u30fcID",
-                    "example":"0"
+                "worker_id": {
+                    "type": "integer",
+                    "description": "\u30ef\u30fc\u30ab\u30fcID",
+                    "example": "0"
                 }
             },
-            "type":"object"
+            "type": "object"
         },
-        "TrimWorker":{
-            "required":[
+        "TrimWorker": {
+            "required": [
                 "status",
                 "worker_id"
             ],
-            "properties":{
-                "worker_id":{
-                    "type":"integer",
-                    "description":"\u5b9f\u884c\u3057\u3066\u3044\u308b\u30ef\u30fc\u30ab\u30fc\u306eID",
-                    "example":"0"
+            "properties": {
+                "worker_id": {
+                    "type": "integer",
+                    "description": "\u5b9f\u884c\u3057\u3066\u3044\u308b\u30ef\u30fc\u30ab\u30fc\u306eID",
+                    "example": "0"
                 },
-                "status":{
-                    "type":"string",
-                    "description":"\u51e6\u7406\u306e\u72b6\u6cc1:\"none\",\"pending\", \"running\", \"finished\"",
-                    "example":"running"
+                "status": {
+                    "type": "string",
+                    "description": "\u51e6\u7406\u306e\u72b6\u6cc1:\"none\",\"pending\", \"running\", \"finished\"",
+                    "example": "running"
                 },
-                "progress":{
-                    "type":"number",
-                    "description":"\u5207\u308a\u51fa\u3057\u51e6\u7406\u306e\u72b6\u6cc10-100(%)\u306e\u5024",
-                    "example":"0"
+                "progress": {
+                    "type": "number",
+                    "description": "\u5207\u308a\u51fa\u3057\u51e6\u7406\u306e\u72b6\u6cc10-100(%)\u306e\u5024",
+                    "example": "0"
                 }
             },
-            "type":"object"
+            "type": "object"
         },
-        "Localization":{
-            "required":[
+        "Localization": {
+            "required": [
                 "audio_id",
-                "lowest_freq",
-                "min_interval_src",
                 "name",
-                "pause_length",
-                "src_num",
-                "threshold",
                 "transfer_function"
             ],
-            "properties":{
-                "name":{
-                    "type":"string",
-                    "description":"\u5b9a\u4f4d\u306e\u8a2d\u5b9a\u306b\u5bfe\u3059\u308b\u540d\u524d",
-                    "example":"default"
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "\u5b9a\u4f4d\u306e\u8a2d\u5b9a\u306b\u5bfe\u3059\u308b\u540d\u524d",
+                    "example": "default"
                 },
-                "audio_id":{
-                    "type":"string",
-                    "description":"\u5bfe\u8c61\u306eaudio_id",
-                    "example":"0"
+                "audio_id": {
+                    "type": "string",
+                    "description": "\u5bfe\u8c61\u306eaudio_id",
+                    "example": "audio_trim/test_rectf00.wav"
                 },
-                "transfer_function":{
-                    "type":"string",
-                    "description":"\u4f1d\u9054\u95a2\u6570\u30d5\u30a1\u30a4\u30eb\u540d",
-                    "example":"0"
+                "transfer_function": {
+                    "type": "string",
+                    "description": "\u4f1d\u9054\u95a2\u6570\u30d5\u30a1\u30a4\u30eb\u540d",
+                    "example": "microcone_rectf.zip"
                 },
-                "src_num":{
-                    "type":"integer",
-                    "description":"\uff08\u5b9a\u4f4d\u30d1\u30e9\u30e1\u30fc\u30bf\uff09\u97f3\u6e90\u6570",
-                    "example":"3"
+                "src_num": {
+                    "type": "integer",
+                    "description": "(\u30d1\u30e9\u30e1\u30fc\u30bf)",
+                    "example": 3
                 },
-                "threshold":{
-                    "type":"number",
-                    "description":"\uff08\u5b9a\u4f4d\u30d1\u30e9\u30e1\u30fc\u30bf\uff09\u30b9\u30ec\u30c3\u30b7\u30e7\u30eb\u30c9",
-                    "example":"28.5"
+                "threshold": {
+                    "type": "number",
+                    "description": "(\u30d1\u30e9\u30e1\u30fc\u30bf)",
+                    "example": 12.5
                 },
-                "lowest_freq":{
-                    "type":"number",
-                    "description":"\uff08\u5b9a\u4f4d\u30d1\u30e9\u30e1\u30fc\u30bf\uff09\u6700\u5c0f\u5468\u6ce2\u6570",
-                    "example":"2200"
+                "lowest_freq": {
+                    "type": "number",
+                    "description": "(\u30d1\u30e9\u30e1\u30fc\u30bf)",
+                    "example": 1000
                 },
-                "pause_length":{
-                    "type":"number",
-                    "description":"\uff08\u5b9a\u4f4d\u30d1\u30e9\u30e1\u30fc\u30bf\uff09\u7a7a\u767d\u671f\u9593",
-                    "example":"1200"
+                "pause_length": {
+                    "type": "number",
+                    "description": "(\u30d1\u30e9\u30e1\u30fc\u30bf)",
+                    "example": 10
                 },
-                "min_interval_src":{
-                    "type":"number",
-                    "description":"\uff08\u5b9a\u4f4d\u30d1\u30e9\u30e1\u30fc\u30bf\uff09\u97f3\u6e90\u9593\u306e\u6700\u5c0f\u9593\u9694",
-                    "example":"15"
+                "min_interval_src": {
+                    "type": "number",
+                    "description": "(\u30d1\u30e9\u30e1\u30fc\u30bf)",
+                    "example": 10
                 }
             },
-            "type":"object"
+            "type": "object"
         },
-        "LocalizationResponse":{
-            "properties":{
-                "name":{
-                    "type":"string",
-                    "description":"\u5b9a\u4f4d\u306e\u8a2d\u5b9a\u306b\u5bfe\u3059\u308b\u540d\u524d",
-                    "example":"localizationA"
+        "LocalizationResponse": {
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "\u5b9a\u4f4d\u306e\u8a2d\u5b9a\u306b\u5bfe\u3059\u308b\u540d\u524d",
+                    "example": "localizationA"
                 },
-                "worker_id":{
-                    "type":"integer",
-                    "description":"\u30ef\u30fc\u30ab\u30fcID",
-                    "example":"0"
+                "worker_id": {
+                    "type": "integer",
+                    "description": "\u30ef\u30fc\u30ab\u30fcID",
+                    "example": "0"
                 }
             },
-            "type":"object"
+            "type": "object"
         },
-        "LocalizationResult":{
-            "required":[
+        "LocalizationResult": {
+            "required": [
                 "localization",
                 "spatial_img",
                 "spec_img"
             ],
-            "properties":{
-                "localization":{
-                    "$ref":"#\/definitions\/Scene"
+            "properties": {
+                "localization": {
+                    "$ref": "#/definitions/Scene"
                 },
-                "spec_img":{
-                    "type":"string",
-                    "description":"\u5468\u6ce2\u6570-\u6642\u9593\u306e\u30d1\u30ef\u30fc(\u30b9\u30da\u30af\u30c8\u30ed\u30b0\u30e9\u30e0)\u306e\u753b\u50cf\u30d1\u30b9",
-                    "example":"\/img.png"
+                "spec_img": {
+                    "type": "string",
+                    "description": "\u5468\u6ce2\u6570-\u6642\u9593\u306e\u30d1\u30ef\u30fc(\u30b9\u30da\u30af\u30c8\u30ed\u30b0\u30e9\u30e0)\u306e\u753b\u50cf\u30d1\u30b9",
+                    "example": "/img.png"
                 },
-                "spatial_img":{
-                    "type":"string",
-                    "description":"\u7a7a\u9593-\u6642\u9593\u306e\u30d1\u30ef\u30fc(MUSIC\u30b9\u30da\u30af\u30c8\u30ed\u30b0\u30e9\u30e0)\u306e\u753b\u50cf\u30d1\u30b9",
-                    "example":"\/img.png"
+                "spatial_img": {
+                    "type": "string",
+                    "description": "\u7a7a\u9593-\u6642\u9593\u306e\u30d1\u30ef\u30fc(MUSIC\u30b9\u30da\u30af\u30c8\u30ed\u30b0\u30e9\u30e0)\u306e\u753b\u50cf\u30d1\u30b9",
+                    "example": "/img.png"
                 }
             },
-            "type":"object"
+            "type": "object"
         },
-        "LocalizationWorker":{
-            "required":[
+        "LocalizationWorker": {
+            "required": [
                 "status",
                 "worker_id"
             ],
-            "properties":{
-                "worker_id":{
-                    "type":"integer",
-                    "description":"\u5b9f\u884c\u3057\u3066\u3044\u308b\u30ef\u30fc\u30ab\u30fc\u306eID",
-                    "example":"0"
+            "properties": {
+                "worker_id": {
+                    "type": "integer",
+                    "description": "\u5b9f\u884c\u3057\u3066\u3044\u308b\u30ef\u30fc\u30ab\u30fc\u306eID",
+                    "example": "0"
                 },
-                "status":{
-                    "type":"string",
-                    "description":"\u51e6\u7406\u306e\u72b6\u6cc1:\"none\",\"pending\", \"running\", \"finished\"",
-                    "example":"running"
+                "status": {
+                    "type": "string",
+                    "description": "\u51e6\u7406\u306e\u72b6\u6cc1:\"none\",\"pending\", \"running\", \"finished\"",
+                    "example": "running"
                 },
-                "progress":{
-                    "type":"number",
-                    "description":"\u5b9a\u4f4d\u51e6\u7406\u306e\u72b6\u6cc10-100(%)\u306e\u5024",
-                    "example":"0"
+                "progress": {
+                    "type": "number",
+                    "description": "\u5b9a\u4f4d\u51e6\u7406\u306e\u72b6\u6cc10-100(%)\u306e\u5024",
+                    "example": "0"
                 }
             },
-            "type":"object"
+            "type": "object"
         },
-        "Separation":{
-            "required":[
+        "Separation": {
+            "required": [
                 "audio_id",
                 "localization",
                 "lowest_freq",
                 "name",
                 "transfer_function"
             ],
-            "properties":{
-                "name":{
-                    "type":"string",
-                    "description":"\u5b9a\u4f4d\u306e\u8a2d\u5b9a\u306b\u5bfe\u3059\u308b\u540d\u524d",
-                    "example":"default"
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "\u5b9a\u4f4d\u306e\u8a2d\u5b9a\u306b\u5bfe\u3059\u308b\u540d\u524d",
+                    "example": "default"
                 },
-                "audio_id":{
-                    "type":"string",
-                    "description":"\u5bfe\u8c61\u306eaudio_id",
-                    "example":"0"
+                "audio_id": {
+                    "type": "string",
+                    "description": "\u5bfe\u8c61\u306eaudio_id",
+                    "example": "0"
                 },
-                "localization":{
-                    "$ref":"#\/definitions\/Scene"
+                "localization": {
+                    "$ref": "#/definitions/Scene"
                 },
-                "transfer_function":{
-                    "type":"string",
-                    "description":"\u4f1d\u9054\u95a2\u6570\u30d5\u30a1\u30a4\u30eb\u540d",
-                    "example":"0"
+                "transfer_function": {
+                    "type": "string",
+                    "description": "\u4f1d\u9054\u95a2\u6570\u30d5\u30a1\u30a4\u30eb\u540d",
+                    "example": "0"
                 },
-                "lowest_freq":{
-                    "type":"number",
-                    "description":"\uff08\u5206\u96e2\u30d1\u30e9\u30e1\u30fc\u30bf\uff09\u6700\u5c0f\u5468\u6ce2\u6570",
-                    "example":"2200"
+                "lowest_freq": {
+                    "type": "number",
+                    "description": "\uff08\u5206\u96e2\u30d1\u30e9\u30e1\u30fc\u30bf\uff09\u6700\u5c0f\u5468\u6ce2\u6570",
+                    "example": "2200"
                 }
             },
-            "type":"object"
+            "type": "object"
         },
-        "SeparationResponse":{
-            "properties":{
-                "name":{
-                    "type":"string",
-                    "description":"\u5b9a\u4f4d\u306e\u8a2d\u5b9a\u306b\u5bfe\u3059\u308b\u540d\u524d",
-                    "example":"separationA"
+        "SeparationResponse": {
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "\u5b9a\u4f4d\u306e\u8a2d\u5b9a\u306b\u5bfe\u3059\u308b\u540d\u524d",
+                    "example": "separationA"
                 },
-                "worker_id":{
-                    "type":"integer",
-                    "description":"\u30ef\u30fc\u30ab\u30fcID",
-                    "example":"0"
+                "worker_id": {
+                    "type": "integer",
+                    "description": "\u30ef\u30fc\u30ab\u30fcID",
+                    "example": "0"
                 }
             },
-            "type":"object"
+            "type": "object"
         },
-        "SepAudio":{
-            "required":[
+        "SepAudio": {
+            "required": [
                 "spec_img"
             ],
-            "properties":{
-                "spec_img":{
-                    "type":"string",
-                    "description":"\u5206\u96e2\u97f3\u306e\u5468\u6ce2\u6570-\u6642\u9593\u306e\u30d1\u30ef\u30fc(\u30b9\u30da\u30af\u30c8\u30ed\u30b0\u30e9\u30e0)\u306e\u753b\u50cf\u30d1\u30b9",
-                    "example":"spec.png"
+            "properties": {
+                "spec_img": {
+                    "type": "string",
+                    "description": "\u5206\u96e2\u97f3\u306e\u5468\u6ce2\u6570-\u6642\u9593\u306e\u30d1\u30ef\u30fc(\u30b9\u30da\u30af\u30c8\u30ed\u30b0\u30e9\u30e0)\u306e\u753b\u50cf\u30d1\u30b9",
+                    "example": "spec.png"
                 }
             },
-            "type":"object"
+            "type": "object"
         },
-        "SeparationWorker":{
-            "required":[
+        "SeparationWorker": {
+            "required": [
                 "status",
                 "worker_id"
             ],
-            "properties":{
-                "worker_id":{
-                    "type":"integer",
-                    "description":"\u5b9f\u884c\u3057\u3066\u3044\u308b\u30ef\u30fc\u30ab\u30fc\u306eID",
-                    "example":"0"
+            "properties": {
+                "worker_id": {
+                    "type": "integer",
+                    "description": "\u5b9f\u884c\u3057\u3066\u3044\u308b\u30ef\u30fc\u30ab\u30fc\u306eID",
+                    "example": "0"
                 },
-                "status":{
-                    "type":"string",
-                    "description":"\u51e6\u7406\u306e\u72b6\u6cc1:\"none\",\"pending\", \"running\", \"finished\"",
-                    "example":"running"
+                "status": {
+                    "type": "string",
+                    "description": "\u51e6\u7406\u306e\u72b6\u6cc1:\"none\",\"pending\", \"running\", \"finished\"",
+                    "example": "running"
                 },
-                "progress":{
-                    "type":"number",
-                    "description":"\u5b9a\u4f4d\u51e6\u7406\u306e\u72b6\u6cc10-100(%)\u306e\u5024",
-                    "example":"0"
+                "progress": {
+                    "type": "number",
+                    "description": "\u5b9a\u4f4d\u51e6\u7406\u306e\u72b6\u6cc10-100(%)\u306e\u5024",
+                    "example": "0"
                 }
             },
-            "type":"object"
+            "type": "object"
+        },
+        "Embedding": {
+            "required": [
+                "audio_id_list",
+                "name"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "\u5727\u7e2e\u306e\u8a2d\u5b9a\u306b\u5bfe\u3059\u308b\u540d\u524d",
+                    "example": "default"
+                },
+                "audio_id_list": {
+                    "type": "array",
+                    "description": "\u5bfe\u8c61\u306eaudio_id",
+                    "example": [
+                        "audio_trim/test_rectf00.wav"
+                    ],
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "event_list": {
+                    "type": "array",
+                    "description": "audio_id_list\u3068\u5bfe\u5fdc\u3057\u305f\u30a4\u30d9\u30f3\u30c8\u60c5\u5831\u3092\u4ed8\u4e0e\u3059\u308b\uff08\u57fa\u672c\u306f\u4e0d\u8981\u3060\u304c\u5727\u7e2e\u306e\u969b\u306b\u30b7\u30fc\u30f3\u60c5\u5831\u307e\u3067\u5229\u7528\u3059\u308b\u5834\u5408\u306b\u306f\u5fc5\u8981\u3001audio_id_list \u3068\u540c\u3058\u9806\u756a\u3067\u6307\u5b9a\u3059\u308b\uff09",
+                    "items": {
+                        "$ref": "#/definitions/Event"
+                    }
+                },
+                "feature": {
+                    "type": "string",
+                    "description": "(\u30d1\u30e9\u30e1\u30fc\u30bf)\u7279\u5fb4\u91cf\u306e\u7a2e\u985e",
+                    "example": "mel"
+                },
+                "method": {
+                    "type": "string",
+                    "description": "(\u30d1\u30e9\u30e1\u30fc\u30bf)\u624b\u6cd5\u540d",
+                    "example": "umap"
+                }
+            },
+            "type": "object"
+        },
+        "EmbeddingResponse": {
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "\u5b9a\u4f4d\u306e\u8a2d\u5b9a\u306b\u5bfe\u3059\u308b\u540d\u524d",
+                    "example": "embeddingA"
+                },
+                "worker_id": {
+                    "type": "integer",
+                    "description": "\u30ef\u30fc\u30ab\u30fcID",
+                    "example": "0"
+                }
+            },
+            "type": "object"
+        },
+        "EmbeddingResult": {
+            "required": [
+                "point_list"
+            ],
+            "properties": {
+                "point_list": {
+                    "type": "array",
+                    "description": "\u4f4e\u6b21\u5143\u5316\u3057\u305f\u70b9\u306e\u30ea\u30b9\u30c8",
+                    "items": {
+                        "$ref": "#/definitions/EmbeddingPoint"
+                    }
+                }
+            },
+            "type": "object"
+        },
+        "EmbeddingPoint": {
+            "required": [
+                "audio_id",
+                "begin_time",
+                "duration",
+                "x",
+                "y"
+            ],
+            "properties": {
+                "x": {
+                    "type": "number",
+                    "description": "\u4f4e\u6b21\u5316\u3057\u305f\u969b\u306e\u6b21\u5143:1"
+                },
+                "y": {
+                    "type": "number",
+                    "description": "\u4f4e\u6b21\u5316\u3057\u305f\u969b\u306e\u6b21\u5143:2"
+                },
+                "audio_id": {
+                    "type": "string",
+                    "description": "\u5bfe\u8c61\u306eaudio_id",
+                    "example": "audio_trim/test_rectf00.wav"
+                },
+                "begin_time": {
+                    "type": "number",
+                    "description": "\u5bfe\u8c61\u306eaudio_id\u4e2d\u306e\u3069\u306e\u6642\u523b\u304b\u3089\u306e\u7279\u5fb4\u91cf\u304b\uff1f"
+                },
+                "duration": {
+                    "type": "number",
+                    "description": "\u5bfe\u8c61\u306eaudio_id\u4e2d\u306e\u3069\u308c\u3060\u3051\u306e\u533a\u9593\u304b\uff1f(msec)",
+                    "example": 1
+                },
+                "original_vector": {
+                    "type": "array",
+                    "description": "2\u6b21\u5143\u306b\u3059\u308b\u524d\u306e\u7279\u5fb4\u91cf",
+                    "items": {
+                        "type": "number"
+                    }
+                }
+            },
+            "type": "object"
+        },
+        "EmbeddingWorker": {
+            "required": [
+                "status",
+                "worker_id"
+            ],
+            "properties": {
+                "worker_id": {
+                    "type": "integer",
+                    "description": "\u5b9f\u884c\u3057\u3066\u3044\u308b\u30ef\u30fc\u30ab\u30fc\u306eID",
+                    "example": "0"
+                },
+                "status": {
+                    "type": "string",
+                    "description": "\u51e6\u7406\u306e\u72b6\u6cc1:\"none\",\"pending\", \"running\", \"finished\"",
+                    "example": "running"
+                },
+                "progress": {
+                    "type": "number",
+                    "description": "\u5b9a\u4f4d\u51e6\u7406\u306e\u72b6\u6cc10-100(%)\u306e\u5024",
+                    "example": "0"
+                }
+            },
+            "type": "object"
         }
     },
-    "responses":{
-        "ParseError":{
-            "description":"When a mask can't be parsed"
+    "responses": {
+        "ParseError": {
+            "description": "When a mask can't be parsed"
         },
-        "MaskError":{
-            "description":"When any error occurs on mask"
+        "MaskError": {
+            "description": "When any error occurs on mask"
         }
     }
 }
