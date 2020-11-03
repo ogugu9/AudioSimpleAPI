@@ -9,11 +9,13 @@ from apis.scene import scene_namespace
 from apis.trim import trim_namespace
 from apis.localization import localization_namespace
 from apis.separation import separation_namespace
+from apis.embedding import embedding_namespace
 from apis.util import util_namespace
 api.add_namespace(scene_namespace)
 api.add_namespace(trim_namespace)
 api.add_namespace(localization_namespace)
 api.add_namespace(separation_namespace)
+api.add_namespace(embedding_namespace)
 api.add_namespace(util_namespace)
 
 

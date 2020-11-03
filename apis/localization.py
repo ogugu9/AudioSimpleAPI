@@ -3,6 +3,8 @@ from .scene import scene
 from flask import request, redirect, url_for,make_response,jsonify
 import subprocess
 import os
+import math
+import json
 
 # Namespaceの初期化
 localization_namespace = Namespace('localization', description='Localizationのエンドポイント')
@@ -35,6 +37,8 @@ localization_response = localization_namespace.model('LocalizationResponse', {
         description='ワーカーID',
         example='0'
     ),
+     
+
 })
 
 localization = localization_namespace.model('Localization', {
@@ -52,6 +56,31 @@ localization = localization_namespace.model('Localization', {
         required=True,
         description='伝達関数ファイル名',
         example='microcone_rectf.zip'
+    ),
+    'src_num': fields.Integer(
+        required=False,
+        description='(パラメータ)',
+        example=3
+    ),
+    'threshold': fields.Float(
+        required=False,
+        description='(パラメータ)',
+        example=12.5
+    ),
+    'lowest_freq': fields.Float(
+        required=False,
+        description='(パラメータ)',
+        example=1000
+    ),
+    'pause_length': fields.Float(
+        required=False,
+        description='(パラメータ)',
+        example=10
+    ),
+    'min_interval_src': fields.Float(
+        required=False,
+        description='(パラメータ)',
+        example=10
     ),
 })
 
@@ -94,37 +123,75 @@ class LocalizationExec(Resource):
         log_path=LOG_PATH+name+".txt"
         result_path=RESULT_PATH
 
-        src_num          = request.json['src_num']
-        threshold        = request.json['threshold']
-        lowest_freq      = request.json['lowest_freq']
-        pause_length     = request.json['pause_length']
-        min_interval_src = request.json['min_interval_src']
+        src_num          = request.json['src_num'] if 'src_num' in request.json else 3
+        threshold        = request.json['threshold'] if 'threshold' in request.json else 10
+        lowest_freq      = request.json['lowest_freq'] if 'lowest_freq' in request.json else 1000
+        pause_length     = request.json['pause_length'] if 'pause_length' in request.json else 100
+        min_interval_src = request.json['min_interval_src'] if 'min_interval_src' in request.json else 10
      
-        cmd=["micarrayx-localize", tf_path, src_path,
-                #"--stft_win_size", S,
-                #"--stft_step", S,
-                "--min_freq", str(lowest_freq),
-                #"--max_freq", F,
-                #"--music_win_size", S,
-                #"--music_step", S,
-                "--music_src_num", str(src_num),
-                "--out_npy", result_path+name+".npy",
-                "--out_full_npy", result_path+name+".full.npy",
-                "--out_fig", result_path+name+".music.png",
-                "--out_spectrogram",result_path+name+".spec.png",
-                "--out_setting",result_path+name+".config.json",
-                "--thresh", str(threshold),
-                "--event_min_size", str(min_interval_src),
+        #"--stft_win_size", S,
+        #"--stft_step", S,
+        #"--max_freq", F,
+        #"--music_win_size", S,
+        #"--music_step", S,
+        cmd=["micarrayx-localize",
+                "--min_freq",         str(lowest_freq),
+                "--music_src_num",    str(src_num),
+                "--thresh",           str(threshold),
+                "--event_min_size",   str(min_interval_src),
+                "--out_npy",          result_path+name+".npy",
+                "--out_full_npy",     result_path+name+".full.npy",
+                "--out_fig",          result_path+name+".music.png",
+                "--out_spectrogram",  result_path+name+".spec.png",
+                "--out_setting",      result_path+name+".config.json",
                 "--out_localization", result_path+name+".loc.json",
-                ">",log_path]
-        print(" ".join(cmd))
-        p = subprocess.Popen(cmd)
+                tf_path, src_path,
+                ]
+        with open(log_path, 'w') as f:
+            print(" ".join(cmd))
+            p = subprocess.Popen(cmd, stdout=f, stderr=subprocess.STDOUT)
+            #print(cmd)
+            #p = subprocess.Popen(cmd)
         pid=int(p.pid)
         worker[pid]={"process":p,"name":name}
         res={"worker_id":int(p.pid),"name":name}
         return res
 
-@localization_namespace.route('/result/<int:woker_id>')
+def convert_tl2events(tl,interval):
+    #[{"id": 0, "x": [0.0, 0.958, 0.287], "power": 1}],
+    events={}
+    current_time=0
+    duration=interval
+    prev_evt=set()
+    for time_pt in tl:
+        current_evt=set()
+        for e in time_pt:
+            current_evt.add(e["id"])
+            if e["id"] not in events:
+                events[e["id"]]={}
+                events[e["id"]]["begin_time"]=current_time
+                events[e["id"]]["point_list"]=[]
+                events[e["id"]]["sep_audio_id"]= "0"
+                events[e["id"]]["label"]= "None"
+            pt={}
+            pt["begin_time"]=current_time
+            pt["direction"]=math.atan2(float(e["x"][1]),float(e["x"][0]))/math.pi*180
+            pt["duration"]=duration
+            pt["power"]=e["power"]
+            events[e["id"]]["point_list"].append(pt)
+        for removed_id in prev_evt-current_evt:
+            events[removed_id]["end_time"]=current_time
+        current_time+=interval
+    for removed_id in current_evt:
+        events[removed_id]["end_time"]=current_time
+    event_list=[]
+    for k,v in events.items():
+        v["localization_id"]=k 
+        event_list.append(v)
+    return event_list
+
+
+@localization_namespace.route('/result/<int:worker_id>')
 class LocalizationResult(Resource):
     @localization_namespace.marshal_with(localization_result)
     def get(self, worker_id):
@@ -132,15 +199,40 @@ class LocalizationResult(Resource):
         結果取得:Sceneオブジェクト+ 画像等
         """
         #TODO
-        pass
+        if worker_id not in worker:
+            return {},200
+        if worker[worker_id]["name"] is not None:
+            name=worker[worker_id]["name"]
+            result_path=RESULT_PATH
+            out_npy      = result_path+name+".npy"
+            out_full_npy = result_path+name+".full.npy"
+            out_fig      = result_path+name+".music.png"
+            out_spectrogram  = result_path+name+".spec.png"
+            out_setting      = result_path+name+".config.json"
+            out_localization = result_path+name+".loc.json"
+            
+            obj={}
+            obj["localization"]={}
+            obj["localization"]["audio_id"]=""
+            obj["localization"]["name"]=name
+            obj["localization"]["event_list"]=[]
+            if os.path.exists(out_localization):
+                print("[LOAD]",out_localization)
+                loc_obj=json.load(open(out_localization))
+                interval=loc_obj["interval"]
+                tl=loc_obj["tl"]
+                obj["localization"]["event_list"]=convert_tl2events(tl,interval)
+            obj["spec_img"]= out_spectrogram
+            obj["spatial_img"]= out_fig
+            return obj, 200
  
-@localization_namespace.route('/log/<int:woker_id>')
+@localization_namespace.route('/log/<int:worker_id>')
 class LocalizationLog(Resource):
     def get(self, worker_id):
         """
         ログ取得
         """
-        if worker_id not in worker or  worker[worker_id]["process"] is None:
+        if worker_id not in worker:
             return {'log':""},200
         if worker[worker_id]["name"] is not None:
             name=worker[worker_id]["name"]
@@ -151,7 +243,7 @@ class LocalizationLog(Resource):
 
        
 
-@localization_namespace.route('/worker/<int:woker_id>')
+@localization_namespace.route('/worker/<int:worker_id>')
 class LocalizationWorker(Resource):
     @localization_namespace.marshal_with(localization_worker)
     def get(self, worker_id):
