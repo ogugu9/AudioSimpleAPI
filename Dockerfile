@@ -16,11 +16,17 @@ RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -
     ln -s ${CONDA_ROOT}/etc/profile.d/conda.sh /etc/profile.d/conda.sh && \
     echo ". ${CONDA_ROOT}/etc/profile.d/conda.sh" >> ~/.bashrc 
 
-RUN apt install -y libfontconfig1 libxrender1
-RUN conda install scikit-learn joblib pandas
-RUN conda install -c conda-forge librosa
-RUN conda install flask
-RUN conda install -c conda-forge flask-restx
+RUN apt install -y libfontconfig1 libxrender1  build-essential sox
+RUN conda install scikit-learn joblib pandas -y
+RUN conda install -c conda-forge librosa -y
+RUN conda install flask seaborn -y
+RUN conda install -c conda-forge flask-restx -y
+RUN conda install -c conda-forge umap-learn -y
+RUN pip install trimap pillow
+
+RUN pip install git+https://github.com/kojima-r/HARK_TF_Parser.git
+RUN pip install git+https://github.com/kojima-r/MicArrayX.git
+
 WORKDIR /AudioSimpleAPI
 
 ENTRYPOINT ["python", "app.py"]

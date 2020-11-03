@@ -83,9 +83,11 @@ class TrimExec(Resource):
         else:
             name=os.basename(request.json['audio_id'])
         log_path=LOG_PATH+"/"+name+".txt"
-        cmd=["sox", src_path, dest_path, "trim", str(t1),str(t2),">",log_path]
-        print(cmd)
-        p = subprocess.Popen(cmd)
+        cmd=["sox", src_path, dest_path, "trim", str(t1),str(t2)]
+        with open(log_path, 'w') as f:
+            print(" ".join(cmd))
+            p = subprocess.Popen(cmd, stdout=f, stderr=subprocess.STDOUT)
+            #p = subprocess.Popen(cmd)
         pid=int(p.pid)
         worker[pid]={"process":p,"name":name}
         res={"worker_id":int(p.pid),"name":name}

@@ -137,8 +137,8 @@ class EmbeddingExec(Resource):
         log_path=LOG_PATH+name+".txt"
         with open(log_path, 'w') as f:
             print(" ".join(cmd))
-            #p = subprocess.Popen(cmd, stdout=f, stderr=subprocess.STDOUT)
-            p = subprocess.Popen(cmd)
+            p = subprocess.Popen(cmd, stdout=f, stderr=subprocess.STDOUT)
+            #p = subprocess.Popen(cmd)
         pid=int(p.pid)
         worker[pid]={"process":p,"name":name}
         res={"worker_id":int(p.pid),"name":name}
