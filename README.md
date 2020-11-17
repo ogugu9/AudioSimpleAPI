@@ -17,6 +17,8 @@ If necessary, you can mount the directories in `public/` using the `-v` option.
 ## Installation without docker
 ```
 pip install -r requirements.txt
+pip install git+https://github.com/kojima-r/HARK_TF_Parser.git
+pip install git+https://github.com/kojima-r/MicArrayX.git
 ```
 ### Required commands
 ```
