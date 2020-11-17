@@ -35,14 +35,18 @@ event = scene_namespace.model('Event', {
         description='イベントの終了(sec)、audio_idの開始を0秒とする',
         example=0
     ),
-    'sep_audio_id': fields.Float(
+    'sep_audio_id': fields.String(
         description='分離音の音声ファイルのID',
-        example=0
+        example=""
     ),
     'point_list': fields.List(fields.Nested(event_point),required=True),
     'label': fields.String(
         description='イベントの名前',
         example='Event A'
+    ),
+    'localization_id': fields.String(
+        description='イベントの名前',
+        example='0'
     ),
 })
 

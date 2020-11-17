@@ -190,6 +190,36 @@ def convert_tl2events(tl,interval):
         event_list.append(v)
     return event_list
 
+def convert_events2tl(event_list,interval):
+    #[{"id": 0, "x": [0.0, 0.958, 0.287], "power": 1}],
+    timeline=[]
+    for evt in event_list:
+        loc_id=evt["localization_id"]
+        begin_t=evt["begin_time"]
+        begin_idx=int(math.floor(begin_t/interval))
+        end_t=evt["end_time"]
+        end_idx=int(end_t/interval)
+        while len(timeline)<=end_idx:
+            timeline.append([])
+        pt_index=0
+        pt_list=evt["point_list"]
+        if len(pt_list)>0:
+            current_pt=evt["point_list"][0]
+            for i in range(end_idx-begin_idx):
+                tl_idx=begin_idx+i
+                current_time=begin_t+interval*i
+                while pt_index+1 < len(pt_list) and pt_list[pt_index+1]["begin_time"]<=current_time:
+                    pt_index+=1
+                    current_pt = pt_list[pt_index]
+                theta=current_pt["direction"]*math.pi/180
+                obj={}
+                obj["x"]=[np.cos(theta),np.sin(theta),0]
+                obj["direction"]=current_pt["direction"]
+                obj["power"]=current_pt["power"]
+                obj["id"]=loc_id
+                timeline[tl_idx].append(obj)
+    return timeline
+
 
 @localization_namespace.route('/result/<int:worker_id>')
 class LocalizationResult(Resource):
