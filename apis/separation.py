@@ -130,7 +130,6 @@ TF_PATH="./public/tf/"
 LOG_PATH="./public/log_separation/"
 RESULT_PATH="./public/result_separation/"
 
-SEP_ID_BASE="result_separation/sep/"
 
 worker={}
 @separation_namespace.route('/')
@@ -164,14 +163,14 @@ class SeparationExec(Resource):
         with open(tl_filename, 'w') as fp:
             json.dump({"interval": interval, "tl": tl}, fp)
         
-        os.makedirs(RESULT_PATH+"sep/",exist_ok=True)
+        os.makedirs(RESULT_PATH+name+"_sep/",exist_ok=True)
         cmd=[
             "micarrayx-separate",
             tf_path,
             src_path,
             "--timeline", tl_filename,
             #"--min_freq", str(lowest_freq),
-            "--out", RESULT_PATH+"sep/"+name,
+            "--out", RESULT_PATH+name+"_sep/sep",
             "--out_sep_spectrogram_fig",
             "--out_sep_spectrogram_csv",
             ]
@@ -197,17 +196,18 @@ class SeparationAudio(Resource):
             return {},200
         if worker[worker_id]["name"] is not None:
             name=worker[worker_id]["name"]
+            sep_id_base="result_separation/"+name+"_sep/sep"
             loc_filename=RESULT_PATH+name+".loc.json"
             with open(loc_filename, 'r') as fp:
                 loc=json.load(fp)
             data=[]
             for el in loc["event_list"]:
-                sep_audio_id=SEP_ID_BASE+name+"."+str(el["localization_id"])+".wav"
+                sep_audio_id=sep_id_base+"."+str(el["localization_id"])+".wav"
                 obj={}
                 obj["sep_audio_id"]=sep_audio_id
                 base_name, _ = os.path.splitext(sep_audio_id)
-                obj["spec_img"]=base_name+".spec.png"
-                obj["spec_csv"]=base_name+".spec.csv"
+                obj["spec_img"]=BASE_PATH+base_name+".spec.png"
+                obj["spec_csv"]=BASE_PATH+base_name+".spec.csv"
                 data.append(obj)
             print(worker_id,sep_audio_id)
             return {"sep_audio_list":data}
