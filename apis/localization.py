@@ -89,12 +89,22 @@ localization_result = localization_namespace.model('LocalizationResult', {
     'spec_img': fields.String(
         required=True,
         description='周波数-時間のパワー(スペクトログラム)の画像パス',
-        example='/img.png',
+        example='/spec.png',
+    ),
+    'spec_csv': fields.String(
+        required=True,
+        description='周波数-時間のパワー(スペクトログラム)のcsvパス',
+        example='/spec.csv',
     ),
     'spatial_img': fields.String(
         required=True,
         description='空間-時間のパワー(MUSICスペクトログラム)の画像パス',
-        example='/img.png',
+        example='/spatial.csv',
+    ),
+    'spatial_csv': fields.String(
+        required=True,
+        description='空間-時間のパワー(MUSICスペクトログラム)のcsvパス',
+        example='/spatial.csv',
     ),
 })
 
@@ -140,11 +150,13 @@ class LocalizationExec(Resource):
                 "--thresh",           str(threshold),
                 "--event_min_size",   str(min_interval_src),
                 "--out_npy",          result_path+name+".npy",
+                "--out_csv",          result_path+name+".csv",
                 "--out_full_npy",     result_path+name+".full.npy",
                 "--out_fig",          result_path+name+".music.png",
-                "--out_spectrogram",  result_path+name+".spec.png",
                 "--out_setting",      result_path+name+".config.json",
                 "--out_localization", result_path+name+".loc.json",
+                "--out_spectrogram_fig",  result_path+name+".spec.png",
+                "--out_spectrogram_csv",  result_path+name+".spec.csv",
                 tf_path, src_path,
                 ]
         with open(log_path, 'w') as f:
@@ -235,9 +247,11 @@ class LocalizationResult(Resource):
             name=worker[worker_id]["name"]
             result_path=RESULT_PATH
             out_npy      = result_path+name+".npy"
+            out_csv      = result_path+name+".csv"
             out_full_npy = result_path+name+".full.npy"
             out_fig      = result_path+name+".music.png"
             out_spectrogram  = result_path+name+".spec.png"
+            out_spectrogram_csv= result_path+name+".spec.csv"
             out_setting      = result_path+name+".config.json"
             out_localization = result_path+name+".loc.json"
             
@@ -253,7 +267,9 @@ class LocalizationResult(Resource):
                 tl=loc_obj["tl"]
                 obj["localization"]["event_list"]=convert_tl2events(tl,interval)
             obj["spec_img"]= out_spectrogram
+            obj["spec_csv"]= out_spectrogram_csv
             obj["spatial_img"]= out_fig
+            obj["spatial_csv"]= out_csv
             return obj, 200
  
 @localization_namespace.route('/log/<int:worker_id>')

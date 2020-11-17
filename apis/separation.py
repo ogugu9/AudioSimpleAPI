@@ -80,6 +80,11 @@ separation_audio = separation_namespace.model('SepAudio', {
         description='分離音の周波数-時間のパワー(スペクトログラム)の画像パス',
         example='spec.png',
     ),
+    'spec_csv': fields.String(
+        required=True,
+        description='分離音の周波数-時間のパワー(スペクトログラム)のcsvパス',
+        example='spec.csv',
+    ),
 })
 separation_audio_list = separation_namespace.model('SepAudioList', {
     'sep_audio_list': fields.List(fields.Nested(separation_audio ,required=True)
@@ -167,6 +172,8 @@ class SeparationExec(Resource):
             "--timeline", tl_filename,
             #"--min_freq", str(lowest_freq),
             "--out", RESULT_PATH+"sep/"+name,
+            "--out_sep_spectrogram_fig",
+            "--out_sep_spectrogram_csv",
             ]
         with open(log_path, 'w') as f:
             print(" ".join(cmd))
@@ -179,12 +186,12 @@ class SeparationExec(Resource):
         return res
 
 
-@separation_namespace.route('/util/sep_audio_list/<int:worker_id>')
+@separation_namespace.route('/sep_audio_list/<int:worker_id>')
 class SeparationAudio(Resource):
     @separation_namespace.marshal_with(separation_audio_list)
     def get(self, worker_id):
         """
-        分離音情報の取得
+        [Utility API] 分離音情報の取得
         """
         if worker_id not in worker:
             return {},200
@@ -200,6 +207,7 @@ class SeparationAudio(Resource):
                 obj["sep_audio_id"]=sep_audio_id
                 base_name, _ = os.path.splitext(sep_audio_id)
                 obj["spec_img"]=base_name+".spec.png"
+                obj["spec_csv"]=base_name+".spec.csv"
                 data.append(obj)
             print(worker_id,sep_audio_id)
             return {"sep_audio_list":data}
