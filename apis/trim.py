@@ -81,7 +81,7 @@ class TrimExec(Resource):
         if "name" in request.json:
             name= request.json["name"]
         else:
-            name=os.basename(request.json['audio_id'])
+            name=os.path.basename(request.json['audio_id'])
         log_path=LOG_PATH+"/"+name+".txt"
         cmd=["sox", src_path,"-t","wavpcm", dest_path, "trim", str(t1),str(t2)]
         with open(log_path, 'w') as f:
