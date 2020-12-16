@@ -13,13 +13,13 @@ SHELL ["/bin/bash", "-c"]
 RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh && \
     bash ~/miniconda.sh -b -p $CONDA_ROOT && \
     ln -s ${CONDA_ROOT}/etc/profile.d/conda.sh /etc/profile.d/conda.sh && \
-    echo ". ${CONDA_ROOT}/etc/profile.d/conda.sh" >> ~/.bashrc 
+    echo ". ${CONDA_ROOT}/etc/profile.d/conda.sh" >> ~/.bashrc
 
 RUN apt install -y libfontconfig1 libxrender1  build-essential sox
 RUN conda install scikit-learn joblib pandas -y
 RUN conda install -c conda-forge librosa -y
 RUN conda install flask seaborn -y
-RUN conda install -c conda-forge flask-restx -y
+RUN conda install -c conda-forge flask-restx flask-cors -y
 RUN conda install -c conda-forge umap-learn -y
 RUN pip install trimap pillow
 
