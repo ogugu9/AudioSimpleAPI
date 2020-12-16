@@ -25,7 +25,11 @@ RUN pip install trimap pillow
 
 RUN pip install git+https://github.com/kojima-r/HARK_TF_Parser.git
 RUN pip install git+https://github.com/kojima-r/MicArrayX.git
-RUN git clone https://github.com/kojima-r/AudioSimpleAPI.git
+RUN git clone https://github.com/ogugu9/AudioSimpleAPI.git
+
+# ローカル用
+# RUN mkdir AudioSimpleAPI
+# COPY . /AudioSimpleAPI
 
 WORKDIR /AudioSimpleAPI
 
