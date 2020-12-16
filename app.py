@@ -1,10 +1,14 @@
-from flask import Flask
+from flask import Flask, send_from_directory
 from flask_restx import Api, Resource, fields
+from flask_cors import CORS
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='public')
 api = Api(app, version='1.0', title='Audio Simple API',
     description='Trim/Localization/Separation/Embedding API',
 )
+# cors = CORS(app, resources={r"/*": {"origins": "*"}})
+cors = CORS(app)
+
 from apis.scene import scene_namespace
 from apis.trim import trim_namespace
 from apis.localization import localization_namespace
