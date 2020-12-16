@@ -226,10 +226,11 @@ class SeparationResult(Resource):
         if worker[worker_id]["name"] is not None:
             name=worker[worker_id]["name"]
             loc_filename=RESULT_PATH+name+".loc.json"
+            sep_id_base="result_separation/"+name+"_sep/sep"
             with open(loc_filename, 'r') as fp:
                 loc=json.load(fp)
             for el in loc["event_list"]:
-                sep_audio_id=SEP_ID_BASE+name+"."+str(el["localization_id"])+".wav"
+                sep_audio_id=sep_id_base+"."+str(el["localization_id"])+".wav"
                 el["sep_audio_id"]=sep_audio_id
             return loc
         return {},200
